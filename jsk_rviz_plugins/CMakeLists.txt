@@ -27,6 +27,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 
 find_package(laser_geometry REQUIRED)
+find_package(image_geometry REQUIRED)
 find_package(map_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(resource_retriever REQUIRED)
@@ -107,17 +108,22 @@ add_library(jsk_rviz_plugins SHARED
   src/close_all_tool.cpp
   src/open_all_tool.cpp
   src/screenshot_listener_tool.cpp
-  src/overlay_picker_tool.cpp)
+  src/overlay_picker_tool.cpp
 
   ### ViewController
   # src/view_controller/tablet_view_controller.cpp )
 
+  ### Properties
+  src/image_transport_hints_property.cpp
+
+)
 # Link ament packages
 ament_target_dependencies(jsk_rviz_plugins
   rclcpp
   rviz_common
   cv_bridge
   image_transport
+  image_geometry
   std_msgs
   geometry_msgs
   nav_msgs
@@ -162,6 +168,7 @@ ament_export_dependencies(
   image_transport
   geometry_msgs
   laser_geometry
+  image_geometry
   map_msgs
   nav_msgs
   rclcpp

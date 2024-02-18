@@ -28,141 +28,146 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// #ifndef JSK_RVIZ_PLUGINS_CAMERA_INFO_DISPLAY_H_
-// #define JSK_RVIZ_PLUGINS_CAMERA_INFO_DISPLAY_H_
+// ROS 2 Port:
+// Ander González Tomé <ander.gonzalez@ikerlan.es> @ IKERLAN S. COOP.
 
-// #ifndef Q_MOC_RUN
-// #include <rviz_common/ros_topic_display.hpp>
-// #include <rviz_default_plugins/visibility_control.hpp>
-// #include <rviz_common/ros_topic_display.hpp>
-// #include <rviz_common/properties/color_property.hpp>
-// #include <rviz_common/properties/bool_property.hpp>
-// #include <rviz_common/properties/float_property.hpp>
-// #include <rviz_common/properties/ros_topic_property.hpp>
-// #include <rviz_rendering/objects/shape.hpp>
-// #include <rviz_rendering/objects/billboard_line.hpp>
-// #include <OgreSceneNode.h>
-// //#include <image_geometry/pinhole_camera_model.hpp>
-// #include <sensor_msgs/msg/image.hpp>
-// #include <OgreManualObject.h>
-// #include <OgreSceneManager.h>
-// #include <OgreTextureManager.h>
-// #include <OgreTexture.h>
-// #include <cv_bridge/cv_bridge.h>
-// #include <sensor_msgs/image_encodings.hpp>
-// //#include <image_transport/subscriber.hpp>
+#ifndef JSK_RVIZ_PLUGINS_CAMERA_INFO_DISPLAY_H_
+#define JSK_RVIZ_PLUGINS_CAMERA_INFO_DISPLAY_H_
 
-// //#include <image_transport_hints_property.hpp>
-// #endif
+#ifndef Q_MOC_RUN
+#include <rviz_common/ros_topic_display.hpp>
+#include <rviz_common/visibility_control.hpp>
+#include <rviz_common/ros_topic_display.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/ros_topic_property.hpp>
+#include <rviz_rendering/objects/shape.hpp>
+#include <rviz_rendering/objects/billboard_line.hpp>
+#include <OgreSceneNode.h>
+#include <sensor_msgs/msg/image.hpp>
+#include <sensor_msgs/msg/camera_info.hpp>
+#include <OgreManualObject.h>
+#include <OgreSceneManager.h>
+#include <OgreTextureManager.h>
+#include <OgreTexture.h>
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.hpp>
+#include <image_transport/subscriber.hpp>
 
-// namespace jsk_rviz_plugins
-// {
-//   class TrianglePolygon
-//   {
-//   public:
-//     typedef std::shared_ptr<TrianglePolygon> Ptr;
-//     TrianglePolygon(Ogre::SceneManager* manager,
-//                     Ogre::SceneNode* node,
-//                     const cv::Point3d& O,
-//                     const cv::Point3d& A,
-//                     const cv::Point3d& B,
-//                     const std::string& name,
-//                     const Ogre::ColourValue& color,
-//                     bool use_color,
-//                     bool upper_triangle);
-//     ~TrianglePolygon();
-//   protected:
-//     Ogre::ManualObject* manual_;
-//     Ogre::SceneManager* manager_;
-//   private:
+#include "image_transport_hints_property.hpp"
+#endif
 
-//   };
+namespace jsk_rviz_plugins
+{
+  class TrianglePolygon
+  {
+  public:
+    typedef std::shared_ptr<TrianglePolygon> Ptr;
+    TrianglePolygon(Ogre::SceneManager* manager,
+                    Ogre::SceneNode* node,
+                    const cv::Point3d& O,
+                    const cv::Point3d& A,
+                    const cv::Point3d& B,
+                    const std::string& name,
+                    const Ogre::ColourValue& color,
+                    bool use_color,
+                    bool upper_triangle);
+    ~TrianglePolygon();
+  protected:
+    Ogre::ManualObject* manual_;
+    Ogre::SceneManager* manager_;
+  private:
 
-//   class CameraInfoDisplay:
-//     public rviz_common::RosTopicDisplay<sensor_msgs::msg::CameraInfo>
-//   {
-//     Q_OBJECT
-//   public:
-//     typedef std::shared_ptr<rviz_rendering::Shape> ShapePtr;
-//     typedef std::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
-//     CameraInfoDisplay();
-//     ~CameraInfoDisplay();
+  };
 
-//   protected:
-//     ////////////////////////////////////////////////////////
-//     // methods required by super class
-//     ////////////////////////////////////////////////////////
-//     void onInitialize() override;
-//     void reset();
-//     void processMessage(sensor_msgs::msg::CameraInfo::ConstSharedPtr msg) override;
-//     ////////////////////////////////////////////////////////
-//     // methods
-//     ///////////////////////////////////////////////////////
-//     void update(float wall_dt, float ros_dt) override;
-//     bool isSameCameraInfo(
-//       sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info);
-//     void createCameraInfoShapes(
-//       sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info);
-//     void addPointToEdge(
-//       const cv::Point3d& point);
-//     void addPolygon(
-//       const cv::Point3d& O, const cv::Point3d& A, const cv::Point3d& B, std::string name,
-//       bool use_color, bool upper_triangle);
-//     void prepareMaterial();
-//     void createTextureForBottom(int width, int height);
-//     void imageCallback(const sensor_msgs::Image::ConstSharedPtr& msg);
-//     void drawImageTexture();
-//     //void subscribeImage(std::string topic);
-//     /////////////////////////////////////////////////////////
-//     // variables
-//     ////////////////////////////////////////////////////////
-//     std::vector<TrianglePolygon::Ptr> polygons_;
-//     BillboardLinePtr edges_;
-//     sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info_;
-//     Ogre::MaterialPtr material_;
-//     Ogre::TexturePtr texture_;
-//     Ogre::MaterialPtr material_bottom_;
-//     Ogre::TexturePtr bottom_texture_;
-//     image_transport::Subscriber image_sub_;
-//     std::mutex mutex_;
-//     ////////////////////////////////////////////////////////
-//     // variables updated by rviz properties
-//     ////////////////////////////////////////////////////////
-//     double alpha_;
-//     double far_clip_distance_;
-//     QColor color_;
-//     QColor edge_color_;
-//     bool show_polygons_;
-//     bool show_edges_;
-//     bool use_image_;
-//     bool image_updated_;
-//     bool not_show_side_polygons_;
-//     cv::Mat image_;
-//     ////////////////////////////////////////////////////////
-//     // properties
-//     ////////////////////////////////////////////////////////
-//     ImageTransportHintsProperty* image_transport_hints_property_;
-//     rviz_common::properties::FloatProperty* far_clip_distance_property_;
-//     rviz_common::properties::FloatProperty* alpha_property_;
-//     rviz_common::properties::ColorProperty* color_property_;
-//     rviz_common::properties::ColorProperty* edge_color_property_;
-//     rviz_common::properties::BoolProperty* show_polygons_property_;
-//     rviz_common::properties::BoolProperty* not_show_side_polygons_property_;
-//     rviz_common::properties::BoolProperty* use_image_property_;
-//     rviz_common::properties::BoolProperty* show_edges_property_;
+  class CameraInfoDisplay:
+    public rviz_common::RosTopicDisplay<sensor_msgs::msg::CameraInfo>
+  {
+    Q_OBJECT
+  public:
+    typedef std::shared_ptr<rviz_rendering::Shape> ShapePtr;
+    typedef std::shared_ptr<rviz_rendering::BillboardLine> BillboardLinePtr;
+    CameraInfoDisplay();
+    ~CameraInfoDisplay();
 
-//   protected Q_SLOTS:
-//     void updateFarClipDistance();
-//     void updateAlpha();
-//     void updateColor();
-//     void updateShowEdges();
-//     void updateShowPolygons();
-//     void updateNotShowSidePolygons();
-//     void updateImageTopic();
-//     void updateUseImage();
-//     void updateEdgeColor();
-//   };
+  protected:
+    ////////////////////////////////////////////////////////
+    // methods required by super class
+    ////////////////////////////////////////////////////////
+    void onInitialize() override;
+    void reset();
+    void processMessage(sensor_msgs::msg::CameraInfo::ConstSharedPtr msg) override;
+    ////////////////////////////////////////////////////////
+    // methods
+    ///////////////////////////////////////////////////////
+    void update(float wall_dt, float ros_dt) override;
+    bool isSameCameraInfo(
+      sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info);
+    void createCameraInfoShapes(
+      sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info);
+    void addPointToEdge(
+      const cv::Point3d& point);
+    void addPolygon(
+      const cv::Point3d& O, const cv::Point3d& A, const cv::Point3d& B, std::string name,
+      bool use_color, bool upper_triangle);
+    void prepareMaterial();
+    void createTextureForBottom(int width, int height);
+    void imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr& msg);
+    void drawImageTexture();
+    void subscribeImage(std::string topic);
+    /////////////////////////////////////////////////////////
+    // variables
+    ////////////////////////////////////////////////////////
+    std::vector<TrianglePolygon::Ptr> polygons_;
+    BillboardLinePtr edges_;
+    sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info_;
+    Ogre::MaterialPtr material_;
+    Ogre::TexturePtr texture_;
+    Ogre::MaterialPtr material_bottom_;
+    Ogre::TexturePtr bottom_texture_;
+    image_transport::Subscriber image_sub_;
+    std::mutex mutex_;
+    rclcpp::Node::SharedPtr node_;
+    ////////////////////////////////////////////////////////
+    // variables updated by rviz properties
+    ////////////////////////////////////////////////////////
+    double alpha_;
+    double far_clip_distance_;
+    QColor color_;
+    QColor edge_color_;
+    bool show_polygons_;
+    bool show_edges_;
+    bool use_image_;
+    bool image_updated_;
+    bool not_show_side_polygons_;
+    cv::Mat image_;
+    ////////////////////////////////////////////////////////
+    // properties
+    ////////////////////////////////////////////////////////
+    ImageTransportHintsProperty* image_transport_hints_property_;
+    rviz_common::properties::FloatProperty* far_clip_distance_property_;
+    rviz_common::properties::FloatProperty* alpha_property_;
+    rviz_common::properties::ColorProperty* color_property_;
+    rviz_common::properties::ColorProperty* edge_color_property_;
+    rviz_common::properties::BoolProperty* show_polygons_property_;
+    rviz_common::properties::BoolProperty* not_show_side_polygons_property_;
+    rviz_common::properties::BoolProperty* use_image_property_;
+    rviz_common::properties::RosTopicProperty* image_topic_property_;
+    rviz_common::properties::BoolProperty* show_edges_property_;
 
-// }
+  protected Q_SLOTS:
+    void updateFarClipDistance();
+    void updateAlpha();
+    void updateColor();
+    void updateShowEdges();
+    void updateShowPolygons();
+    void updateNotShowSidePolygons();
+    void updateImageTopic();
+    void updateUseImage();
+    void updateEdgeColor();
+  };
 
-// #endif
+}
+
+#endif

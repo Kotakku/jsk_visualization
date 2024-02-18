@@ -34,6 +34,7 @@
   <depend>geometry_msgs</depend>
   <!-- <depend>interactive_markers</depend> -->
   <depend>laser_geometry</depend>
+  <depend>image_geometry</depend>
   <depend>nav_msgs</depend>
   <depend>map_msgs</depend>
   <depend>pluginlib</depend>
