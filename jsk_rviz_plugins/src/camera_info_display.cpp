@@ -190,7 +190,7 @@ namespace jsk_rviz_plugins
     RTDClass::onInitialize();
     node_ = context_->getRosNodeAbstraction().lock()->get_raw_node();
     image_topic_property_->initialize(context_->getRosNodeAbstraction());
-    RCLCPP_INFO(node_->get_logger(), "Initializing CameraInfo view");
+    RCLCPP_DEBUG(node_->get_logger(), "Initializing CameraInfo view");
     scene_node_ = scene_manager_->getRootSceneNode()->createChildSceneNode();
     updateColor();
     updateAlpha();
@@ -202,7 +202,7 @@ namespace jsk_rviz_plugins
     updateUseImage();
     updateEdgeColor();
     
-    RCLCPP_INFO(node_->get_logger(), "Initialized CameraInfo view");
+    RCLCPP_DEBUG(node_->get_logger(), "Initialized CameraInfo view");
   }
 
   void CameraInfoDisplay::processMessage(
@@ -231,11 +231,8 @@ namespace jsk_rviz_plugins
   {
     std::lock_guard<std::mutex> lock(mutex_);
     if (image_updated_) {
-      RCLCPP_ERROR(node_->get_logger(), "image updated");
       if (bottom_texture_) {
-        RCLCPP_ERROR(node_->get_logger(), "draw image");
         drawImageTexture();
-        RCLCPP_ERROR(node_->get_logger(), "draw image done xd");
         image_updated_ = false;
       }
     }
@@ -360,10 +357,9 @@ namespace jsk_rviz_plugins
 
   void CameraInfoDisplay::subscribeImage(std::string topic)
   {
-    RCLCPP_ERROR(node_->get_logger(), "sub img");
     image_sub_.shutdown();
     if (topic.empty()) {
-      RCLCPP_ERROR(node_->get_logger(), "topic name is empty");
+      RCLCPP_DEBUG_THROTTLE(node_->get_logger(), *node_->get_clock(), 5000, "CameraInfo topic name is empty");
       return;
     }
     image_transport::ImageTransport it(node_);
@@ -384,10 +380,10 @@ namespace jsk_rviz_plugins
     if (use_image_ && !image_.empty() &&
         bottom_texture_->getHeight() == image_.rows &&
         bottom_texture_->getWidth() == image_.cols) {
-      RCLCPP_ERROR(node_->get_logger(), "bottom_texture_->getHeight(): %u", bottom_texture_->getHeight());
-      RCLCPP_ERROR(node_->get_logger(), "bottom_texture_->getWidth(): %u", bottom_texture_->getWidth());
-      RCLCPP_ERROR(node_->get_logger(), "image_.rows: %d", image_.rows);
-      RCLCPP_ERROR(node_->get_logger(), "image_.cols: %d", image_.cols);
+      RCLCPP_DEBUG(node_->get_logger(), "bottom_texture_->getHeight(): %u", bottom_texture_->getHeight());
+      RCLCPP_DEBUG(node_->get_logger(), "bottom_texture_->getWidth(): %u", bottom_texture_->getWidth());
+      RCLCPP_DEBUG(node_->get_logger(), "image_.rows: %d", image_.rows);
+      RCLCPP_DEBUG(node_->get_logger(), "image_.cols: %d", image_.cols);
 
       std::vector<cv::Mat> splitted;
       cv::split(image_, splitted);
@@ -398,10 +394,6 @@ namespace jsk_rviz_plugins
       cv::Mat boxMat(image_.rows, image_.cols, CV_8UC4, pDest);
       cv::merge(splitted, boxMat);
     } else {
-      RCLCPP_ERROR(node_->get_logger(), "bottom_texture_->getHeight(): %u", bottom_texture_->getHeight());
-      RCLCPP_ERROR(node_->get_logger(), "bottom_texture_->getWidth(): %u", bottom_texture_->getWidth());
-      RCLCPP_ERROR(node_->get_logger(), "image_.rows: %d", image_.rows);
-      RCLCPP_ERROR(node_->get_logger(), "image_.cols: %d", image_.cols);
       memset(pDest, 0, bottom_texture_->getWidth() * bottom_texture_->getHeight());
       QImage Hud(pDest, bottom_texture_->getWidth(), bottom_texture_->getHeight(), QImage::Format_ARGB32);
       for (size_t j = 0; j < bottom_texture_->getHeight(); j++) {
