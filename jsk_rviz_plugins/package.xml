@@ -14,6 +14,7 @@
   <author email="youhei@jsk.t.u-tokyo.ac.jp">Yohei Kakiuchi</author>
   <author email="s-fujii@jsk.t.u-tokyo.ac.jp">Shohei Fujii</author>
   <author email="ueda@jsk.t.u-tokyo.ac.jp">Ryohei Ueda</author>
+  <author email="ander.gonzalez@ikerlan.es">Ander Gonzalez</author> <!-- CameraInfo Display -->
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
