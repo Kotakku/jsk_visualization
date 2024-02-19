@@ -20,6 +20,7 @@ See [read the docs](http://jsk-visualization.readthedocs.org/en/latest/).
 # 開発環境
 - Ubuntu 20.04(ROS2 Foxy)
 - Ubuntu 20.04(ROS2 Galactic)
+- Ubuntu 22.04(ROS2 Humble) - Compilation Only
 
 # 実装状況
 ## jsk_rviz_plugins
@@ -47,7 +48,7 @@ See [read the docs](http://jsk-visualization.readthedocs.org/en/latest/).
 | TargetVisualizer | ✅ | ✅ | |
 | Diagnostics | ✅ | ✅ | |
 | LinearGauge | ✅ | ✅ | ✅ | |
-| CameraInfo |  |  |  |
+| CameraInfo | ✅ | ✅ |  |
 | PoseArray | | | | (default pluginに実装済み?) |
 | OverlayCamera | | | | (Panelを含む? )|
 | PeoplePositionMeasuermentArray | | | | (msg未実装) |

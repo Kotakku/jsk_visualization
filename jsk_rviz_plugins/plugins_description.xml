@@ -76,13 +76,13 @@
   </class>
 
   
-  <!-- <class name="jsk_rviz_plugin/CameraInfo"
+  <class name="jsk_rviz_plugin/CameraInfo"
          type="jsk_rviz_plugins::CameraInfoDisplay"
          base_class_type="rviz_common::Display">
     <description>
       visualize sensor_msgs/CameraInfo
     </description>
-  </class> -->
+  </class>
 
   <!-- <class name="jsk_rviz_plugin/PeoplePositionMeasurementArray"
          type="jsk_rviz_plugins::PeoplePositionMeasurementArrayDisplay"

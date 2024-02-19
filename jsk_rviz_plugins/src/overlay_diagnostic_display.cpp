@@ -339,7 +339,7 @@ double OverlayDiagnosticDisplay::textWidth(
   painter.setFont(font);
   painter.setPen(pen);
   QFontMetrics metrics(font);
-  const int text_width = metrics.width(text.c_str());
+  const int text_width = metrics.horizontalAdvance(text.c_str());
   const int text_height = metrics.height();
   painter.restore();
   return text_width;
