@@ -353,6 +353,7 @@ void CameraInfoDisplay::drawImageTexture()
     cv::merge(splitted, boxMat);
   } else {
     memset(pDest, 0, bottom_texture_->getWidth() * bottom_texture_->getHeight());
+    color_.setAlphaF(alpha_);
     QImage Hud(
       pDest, bottom_texture_->getWidth(), bottom_texture_->getHeight(), QImage::Format_ARGB32);
     for (size_t j = 0; j < bottom_texture_->getHeight(); j++) {
