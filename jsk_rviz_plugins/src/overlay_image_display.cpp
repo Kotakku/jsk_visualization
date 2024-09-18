@@ -35,7 +35,7 @@
 #include <OgreTechnique.h>
 #include <OgreTexture.h>
 #include <OgreTextureManager.h>
-#include <cv_bridge/cv_bridge.h>
+#include <cv_bridge/cv_bridge.hpp>
 
 #include <rviz_common/uniform_string_stream.hpp>
 #include <sensor_msgs/image_encodings.hpp>
