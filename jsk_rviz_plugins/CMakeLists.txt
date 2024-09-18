@@ -137,12 +137,6 @@ ament_target_dependencies(jsk_rviz_plugins
 #   $<INSTALL_INTERFACE:include>
 #   )
 
-if (NOT WIN32)
-  ament_environment_hooks(
-    "${ament_cmake_package_templates_ENVIRONMENT_HOOK_LIBRARY_PATH}"
-  )
-endif()
-
 # Link non ament packages
 target_link_libraries(jsk_rviz_plugins Qt5::Widgets)
 
