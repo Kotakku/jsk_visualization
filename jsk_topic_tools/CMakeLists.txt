@@ -47,11 +47,6 @@ target_include_directories(jsk_topic_tools_node
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-if (NOT WIN32)
-  ament_environment_hooks(
-    "${ament_cmake_package_templates_ENVIRONMENT_HOOK_LIBRARY_PATH}")
-endif()
-
 ament_export_targets(export_jsk_topic_tools_node HAS_LIBRARY_TARGET)
 ament_export_dependencies(rclcpp)
 ament_export_libraries(jsk_topic_tools_node)
